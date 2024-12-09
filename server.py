@@ -2,6 +2,8 @@ import json
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 
+MAX_PLACES_PER_COMPETITION = 12
+
 def loadClubs():
     with open('clubs.json') as c:
          listOfClubs = json.load(c)['clubs']
@@ -21,9 +23,11 @@ def validate_club_points(club, places_required):
     return True
 
 
-def validate_max_places(places_requested, max_places=12):
-    if places_requested > max_places:
-        raise ValueError(f"Cannot book more than {max_places} places.")
+def validate_max_places(places_required):
+    if places_required > MAX_PLACES_PER_COMPETITION:
+        raise ValueError(
+            f"Cannot book more than {MAX_PLACES_PER_COMPETITION} places."
+            )
     return True
 
 
@@ -68,6 +72,7 @@ def purchasePlaces():
     # Validate and process the purchase
     try:
         validate_club_points(club=club, places_required=placesRequired)
+        validate_max_places(places_required=placesRequired)
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
         flash('Great-booking complete!')
     except ValueError as error_message:

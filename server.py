@@ -1,5 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+from datetime import datetime
 
 
 MAX_PLACES_PER_COMPETITION = 12
@@ -28,6 +29,16 @@ def validate_max_places(places_required):
         raise ValueError(
             f"Cannot book more than {MAX_PLACES_PER_COMPETITION} places."
             )
+    return True
+
+
+def validate_competition_date(competition_date, current_date=None):
+    if current_date is None:
+        current_date = datetime.now()
+
+    competition_date = datetime.strptime(competition_date, "%Y-%m-%d %H:%M:%S")
+    if competition_date < current_date:
+        raise ValueError("The competition date has passed.")
     return True
 
 

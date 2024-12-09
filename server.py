@@ -58,8 +58,16 @@ def purchasePlaces():
     competition = [c for c in competitions if c['name'] == request.form['competition']][0]
     club = [c for c in clubs if c['name'] == request.form['club']][0]
     placesRequired = int(request.form['places'])
-    competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
-    flash('Great-booking complete!')
+
+    # Validate and process the purchase
+    try:
+        validate_club_points(club=club, places_required=placesRequired)
+        competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+        flash('Great-booking complete!')
+    except ValueError as error_message:
+        flash(str(error_message))
+        return render_template('booking.html', club=club, competition=competition), 400
+
     return render_template('welcome.html', club=club, competitions=competitions)
 
 

@@ -21,6 +21,12 @@ def validate_club_points(club, places_required):
     return True
 
 
+def validate_max_places(places_requested, max_places=12):
+    if places_requested > max_places:
+        raise ValueError(f"Cannot book more than {max_places} places.")
+    return True
+
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 

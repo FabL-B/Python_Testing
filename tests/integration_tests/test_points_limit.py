@@ -27,7 +27,6 @@ def test_club_cannot_reserve_excessive_places(client):
         'club': 'Iron Temple',
         'places': 50
         })
-    print(response.data)
     error_message = b"Not enough points available."
     assert response.status_code == 400
     assert error_message in response.data

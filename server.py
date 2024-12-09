@@ -14,6 +14,13 @@ def loadCompetitions():
          return listOfCompetitions
 
 
+def validate_club_points(club, places_required):
+    """Check if club has enough points to purchase places."""
+    if places_required > int(club['points']):
+        raise ValueError("Not enough points available.")
+    return True
+
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 

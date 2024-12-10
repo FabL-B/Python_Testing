@@ -1,5 +1,6 @@
 import json
 from flask import Flask,render_template,request,redirect,flash,url_for
+from datetime import datetime
 
 
 MAX_PLACES_PER_COMPETITION = 12
@@ -31,6 +32,16 @@ def validate_max_places(places_required):
     return True
 
 
+def validate_competition_date(competition_date, current_date=None):
+    if current_date is None:
+        current_date = datetime.now()
+
+    competition_date = datetime.strptime(competition_date, "%Y-%m-%d %H:%M:%S")
+    if competition_date < current_date:
+        raise ValueError("The competition date has passed.")
+    return True
+
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 
@@ -57,7 +68,12 @@ def book(competition,club):
     foundClub = [c for c in clubs if c['name'] == club][0]
     foundCompetition = [c for c in competitions if c['name'] == competition][0]
     if foundClub and foundCompetition:
-        return render_template('booking.html',club=foundClub,competition=foundCompetition)
+        try:
+            validate_competition_date(competition_date=foundCompetition['date'])
+            return render_template('booking.html',club=foundClub,competition=foundCompetition)
+        except ValueError as error_message:
+            flash(str(error_message))
+            return render_template('welcome.html', club=foundClub, competitions=competitions)
     else:
         flash("Something went wrong-please try again")
         return render_template('welcome.html', club=club, competitions=competitions)

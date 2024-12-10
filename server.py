@@ -42,6 +42,11 @@ def validate_competition_date(competition_date, current_date=None):
     return True
 
 
+def update_club_points(club, placesRequired):
+    club['points'] = str(int(club['points']) - placesRequired)
+    return club['points']
+
+
 app = Flask(__name__)
 app.secret_key = 'something_special'
 

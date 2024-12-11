@@ -42,8 +42,8 @@ def validate_competition_date(competition_date, current_date=None):
     return True
 
 
-def update_club_points(club, placesRequired):
-    club['points'] = str(int(club['points']) - placesRequired)
+def update_club_points(club, places_required):
+    club['points'] = str(int(club['points']) - places_required)
     return club['points']
 
 
@@ -95,12 +95,13 @@ def purchasePlaces():
         validate_club_points(club=club, places_required=placesRequired)
         validate_max_places(places_required=placesRequired)
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired
+        club['points'] = update_club_points(club=club, places_required=placesRequired)
         flash('Great-booking complete!')
+        return render_template('welcome.html', club=club, competitions=competitions)
     except ValueError as error_message:
         flash(str(error_message))
         return render_template('booking.html', club=club, competition=competition), 400
 
-    return render_template('welcome.html', club=club, competitions=competitions)
 
 
 # TODO: Add route for points display

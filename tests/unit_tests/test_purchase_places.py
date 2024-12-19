@@ -47,3 +47,46 @@ def test_club_points_deduction_valid_on_purchase(mock_data, client):
     
     updated_points = int(mock_data["clubs"][0]["points"])
     assert updated_points == expected_points
+
+
+def test_valid_purchase_places(mock_data, client):
+    """
+    Test purchase when requested places pass all validations.
+    """
+    initial_points = int(mock_data["clubs"][0]["points"])
+    purchased_places = 2
+    expected_points = initial_points - purchased_places
+    
+    response = client.post('/purchasePlaces', data={
+        'competition': 'Test',
+        'club': 'Test Club',
+        'places': purchased_places
+    })
+    
+    assert response.status_code == 200
+    assert b"Great-booking complete!" in response.data
+    
+    updated_points = int(mock_data["clubs"][0]["points"])
+    assert updated_points == expected_points
+
+def test_purchase_overbook_competition(mock_data, client):
+    """
+    Test purchase when requested places exceed competition limit
+    but are valid for club and max limit.
+    """
+    
+    initial_points = int(mock_data["clubs"][0]["points"])
+    purchased_places = 2
+    expected_points = initial_points - purchased_places
+    
+    response = client.post('/purchasePlaces', data={
+        'competition': 'Test',
+        'club': 'Test Club',
+        'places': purchased_places
+    })
+    
+    assert response.status_code == 200
+    assert b"Great-booking complete!" in response.data
+    
+    updated_points = int(mock_data["clubs"][0]["points"])
+    assert updated_points == expected_points

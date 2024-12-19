@@ -25,10 +25,18 @@ def validate_club_points(club, places_required):
 
 
 def validate_max_places(places_required):
+    """Ensure requested places does not exceed the allowed maximum."""
     if places_required > MAX_PLACES_PER_COMPETITION:
         raise ValueError(
             f"Cannot book more than {MAX_PLACES_PER_COMPETITION} places."
             )
+    return True
+
+
+def validate_competition_overbooking(competition, places_required):
+    """Ensure that requested places don't exceed competition availability."""
+    if places_required > int(competition['numberOfPlaces']):
+        raise ValueError("Not enough places available in the competition.")
     return True
 
 
@@ -92,6 +100,7 @@ def purchasePlaces():
 
     # Validate and process the purchase
     try:
+        validate_competition_overbooking(competition=competition, places_required=placesRequired)
         validate_club_points(club=club, places_required=placesRequired)
         validate_max_places(places_required=placesRequired)
         competition['numberOfPlaces'] = int(competition['numberOfPlaces'])-placesRequired

@@ -3,14 +3,12 @@ import pytest
 from server import validate_competition_overbooking
 
 
-def test_valid_places():
-    places_required = 10
-    competition = {"name": "test competition", "numberOfPlaces": "12"}
+def test_validate_competition_overbooking():
+    competition = {"numberOfPlaces": "5"}
+    places_required = 4
     assert validate_competition_overbooking(competition, places_required) is True
 
-def test_excessive_places():
-    places_required = 10
-    competition = {"name": "test competition", "numberOfPlaces": "5"}
+    places_required = 6
     error_message = (
         f"Not enough places available in the competition."
     )

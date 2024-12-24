@@ -1,12 +1,4 @@
-import pytest
-from server import app, MAX_PLACES_PER_COMPETITION
-
-
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
+from server import MAX_PLACES_PER_COMPETITION
 
 
 def test_purchase_places_success(mocker, client):

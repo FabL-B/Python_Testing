@@ -1,14 +1,3 @@
-import pytest
-from server import app
-
-
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-
 def test_book_route_valid(client, mocker):
     """Test book route with valid club and competition."""
     mocker.patch('server.competitions', [

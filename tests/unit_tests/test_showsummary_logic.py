@@ -1,15 +1,3 @@
-import pytest
-
-from server import app
-
-
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-
 def test_showSummary_unknown_email(client, mocker):
     """Test showSummary route with an invalid email."""
     mocker.patch('server.clubs', [

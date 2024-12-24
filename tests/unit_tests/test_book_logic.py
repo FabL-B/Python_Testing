@@ -42,6 +42,5 @@ def test_book_route_invalid_competition(client, mocker):
         side_effect=ValueError("The competition date has passed.")
     )
     response = client.get('/book/Test%20Competition/Test%20Club')
-    print(response.data)
     assert response.status_code == 200
     assert b"The competition date has passed." in response.data

@@ -3,8 +3,16 @@ import pytest
 
 def test_find_club_by_email():
     clubs = [
-        {"name": "Simply Lift", "email": "john@simplylift.co", "points": "13"},
-        {"name": "Iron Temple", "email": "admin@irontemple.com", "points": "4"},
+        {
+            "name": "Simply Lift",
+            "email": "john@simplylift.co",
+            "points": "13"
+         },
+        {
+            "name": "Iron Temple",
+            "email": "admin@irontemple.com",
+            "points": "4"
+        },
     ]
     # Email exist
     email = "john@simplylift.co"

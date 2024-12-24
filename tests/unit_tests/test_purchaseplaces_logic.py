@@ -1,4 +1,3 @@
-  
 import pytest
 from server import app, MAX_PLACES_PER_COMPETITION
 
@@ -13,7 +12,11 @@ def client():
 def test_purchase_places_success(mocker, client):
     """Test a successful purchase where points and places are deducted."""
     mock_competitions = [
-        {"name": "Test Competition", "date": "2026-10-22 13:30:00", "numberOfPlaces": "10"}
+        {
+            "name": "Test Competition",
+            "date": "2026-10-22 13:30:00",
+            "numberOfPlaces": "10"
+        }
     ]
     mock_clubs = [
         {"name": "Test Club", "email": "test@club.com", "points": "10"}
@@ -39,7 +42,11 @@ def test_purchase_places_success(mocker, client):
 def test_purchase_places_fail_max_places_validation(mocker, client):
     """Test purchase failure with exceeding max places limit."""
     mocker.patch('server.competitions', [
-        {"name": "Test Competition", "date": "2026-10-22 13:30:00", "numberOfPlaces": "30"}
+        {
+            "name": "Test Competition",
+            "date": "2026-10-22 13:30:00",
+            "numberOfPlaces": "30"
+        }
     ])
     mocker.patch('server.clubs', [
         {"name": "Test Club", "email": "test@club.com", "points": "50"}
@@ -68,10 +75,17 @@ def test_purchase_places_fail_club_points_validation(mocker, client):
         {"name": "Test Club", "email": "test@club.com", "points": "5"}
     ])
     mocker.patch('server.competitions', [
-        {"name": "Test Competition", "date": "2026-10-22 13:30:00", "numberOfPlaces": "10"}
+        {
+            "name": "Test Competition",
+            "date": "2026-10-22 13:30:00",
+            "numberOfPlaces": "10"
+        }
     ])
     mocker.patch('server.validate_competition_overbooking', return_value=True)
-    mocker.patch('server.validate_club_points', side_effect=ValueError("Not enough points available."))
+    mocker.patch(
+        'server.validate_club_points',
+        side_effect=ValueError("Not enough points available.")
+    )
     mocker.patch('server.validate_max_places', return_value=True)
 
     response = client.post('/purchasePlaces', data={
@@ -82,4 +96,4 @@ def test_purchase_places_fail_club_points_validation(mocker, client):
 
     error_message = b"Not enough points available."
     assert response.status_code == 400
-    assert b"Not enough points available." in response.data
+    assert error_message in response.data

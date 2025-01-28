@@ -5,6 +5,11 @@
     <title>GUDLFT Registration</title>
 </head>
 <body>
+    <div class="navbar">
+      <nav>
+          <a href="{{ url_for('pointsBoard') }}">Tableau des points</a>
+      </nav>
+    </div>
     <h1>Welcome to the GUDLFT Registration Portal!</h1>
     Please enter your secretary email to continue:
     {% with messages = get_flashed_messages() %}

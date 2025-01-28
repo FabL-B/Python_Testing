@@ -130,6 +130,7 @@ def purchasePlaces():
 
     # Validate and process the purchase
     try:
+        validate_positive_places(places_required=placesRequired)
         validate_competition_overbooking(
             competition=competition,
             places_required=placesRequired

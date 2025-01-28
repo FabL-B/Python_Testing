@@ -37,6 +37,10 @@ def test_integration_workflow(client, mock_data):
     response = client.get('/')
     assert response.status_code == 200
 
+    # Access points board route
+    response = client.get('/pointsBoard')
+    assert response.status_code == 200
+
     # Show summary with a valid email
     response = client.post('/showSummary', data={'email': 'test@club.com'})
     assert response.status_code == 200

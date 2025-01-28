@@ -41,6 +41,13 @@ def validate_competition_overbooking(competition, places_required):
     return True
 
 
+def validate_positive_places(places_required):
+    """Ensure the number of places requested is positive."""
+    if places_required <= 0:
+        raise ValueError("The number of places must be a positive value.")
+    return True
+
+
 def validate_competition_date(competition_date, current_date=None):
     if current_date is None:
         current_date = datetime.now()

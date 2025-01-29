@@ -144,7 +144,7 @@ def purchasePlaces():
             club=club,
             places_required=placesRequired
         )
-        flash('Great-booking complete!')
+        flash(f'Great-booking complete!, you booked {placesRequired} places.')
         return render_template(
             'welcome.html',
             club=club, competitions=competitions

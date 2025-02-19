@@ -1,51 +1,117 @@
-# gudlift-registration
+# GÜDLFT
 
-1. Why
+## Description
 
+Améliorez une application Web Python par des tests et du débogage
 
-    This is a proof of concept (POC) project to show a light-weight version of our competition booking platform. The aim is the keep things as light as possible, and use feedback from the users to iterate.
+## Features
 
-2. Getting Started
+- Unit testing to ensure the reliability of existing features.
+- Debugging to identify and resolve potential issues.
+- Performance testing with Locust.
 
-    This project uses the following technologies:
+## Installation:
 
-    * Python v3.x+
+1. Clone the repository to your local machine:
 
-    * [Flask](https://flask.palletsprojects.com/en/1.1.x/)
+    ```bash
+    git clone https://github.com/FabL-B/Python_Testing
+    cd Python_Testing
+    ```
 
-        Whereas Django does a lot of things for us out of the box, Flask allows us to add only what we need. 
-     
+2. Create and activate the virtual environment:
 
-    * [Virtual environment](https://virtualenv.pypa.io/en/stable/installation.html)
+    ```bash
+    python -m venv env
+    source env/bin/activate (for Linux and Mac)
+    env\Scripts\activate (for Windows)
+    ```
 
-        This ensures you'll be able to install the correct packages without interfering with Python on your machine.
+3. Install the required packages:
 
-        Before you begin, please ensure you have this installed globally. 
+    ```bash
+    pip install -r requirements.txt
+    ```
 
+## Running the application:
 
-3. Installation
+1. Set up Flask:
 
-    - After cloning, change into the directory and type <code>virtualenv .</code>. This will then set up a a virtual python environment within that directory.
+    ```bash
+    export FLASK_APP=server.py (for Linux and Mac)
+    $env:FLASK_APP = "server.py" (for Windows)
+    ```
 
-    - Next, type <code>source bin/activate</code>. You should see that your command prompt has changed to the name of the folder. This means that you can install packages in here without affecting affecting files outside. To deactivate, type <code>deactivate</code>
+2. Start the server:
 
-    - Rather than hunting around for the packages you need, you can install in one step. Type <code>pip install -r requirements.txt</code>. This will install all the packages listed in the respective file. If you install a package, make sure others know by updating the requirements.txt file. An easy way to do this is <code>pip freeze > requirements.txt</code>
+    ```bash
+    flask run
+    ```
 
-    - Flask requires that you set an environmental variable to the python file. However you do that, you'll want to set the file to be <code>server.py</code>. Check [here](https://flask.palletsprojects.com/en/1.1.x/quickstart/#a-minimal-application) for more details
+3. Open your browser and navigate to:
 
-    - You should now be ready to test the application. In the directory, type either <code>flask run</code> or <code>python -m flask run</code>. The app should respond with an address you should be able to go to using your browser.
+    ```bash
+    http://127.0.0.1:5000
+    ```
 
-4. Current Setup
+4. To test the application, you can log in using one of the following email addresses:
 
-    The app is powered by [JSON files](https://www.tutorialspoint.com/json/json_quick_guide.htm). This is to get around having a DB until we actually need one. The main ones are:
-     
-    * competitions.json - list of competitions
-    * clubs.json - list of clubs with relevant information. You can look here to see what email addresses the app will accept for login.
+    - john@simplylift.co
+    - admin@irontemple.com
+    - kate@shelifts.co.uk
 
-5. Testing
+- Use the competition named "TEST" for booking to avoid restrictions.
 
-    You are free to use whatever testing framework you like-the main thing is that you can show what tests you are using.
+## Running the Tests:
 
-    We also like to show how well we're testing, so there's a module called 
-    [coverage](https://coverage.readthedocs.io/en/coverage-5.1/) you should add to your project.
+### **Unit and Integration Tests**
+- To run all tests, execute:
 
+    ```bash
+    pytest
+    ```
+- To check the test coverage, use:
+    ```bash  
+    pytest --cov=server tests/
+    ```
+
+- For a detailed coverage report, generate an HTML report:
+    ```bash
+    pytest --cov=server --cov-report=html tests/
+    ```
+- The generated report will be available in the htmlcov/ folder. Open htmlcov/index.html in your browser to view the results.
+
+## Performance Testing with Locust:
+### Starting Locust
+
+1. To run performance tests using Locust, start by launching the server in one terminal:
+
+    ```bash  
+    flask run
+    ```
+
+2. Then, in another terminal, navigate to the project directory and run:
+
+    ```bash  
+    locust
+    ```
+
+3. This will start Locust's web interface, accessible at:
+
+    ```bash  
+    http://127.0.0.1:8089
+    ```
+
+4. Configuring Locust
+
+    - Open http://127.0.0.1:8089 in your browser.
+
+    - Set the number of users to 6.
+
+    - Ensure the Host field is set to:
+
+        ```bash  
+        http://127.0.0.1:5000
+        ```
+
+5. Click Start Swarming to begin the performance test.
